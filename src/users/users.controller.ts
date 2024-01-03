@@ -1,33 +1,35 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
 
+  constructor(private readonly usersService: UsersService) { }
+
   @Get()
   async findAll() {
-    return [{ id: 1, name: "dario" }, { id: 2, name: "dario2" }, { id: 3, name: "dario3"}];
+    return await this.usersService.findAll();
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findById(@Param('id') id: number) {
-    return { id: id, name: "dario" };
+  async findById(@Param('id') id: string) {
+    return await this.usersService.findById(id);
   }
 
   @Post()
   async createUser(@Body() createUserDto: any) {
-    return "hola" + " " + createUserDto.name;
+    return await this.usersService.createUser(createUserDto);
   }
 
   @Patch(':id')
-  async updateUser(@Body() updateUserDto: any , @Param('id') id: number) {
-    return { id, updateUserDto };
+  async updateUser(@Body() updateUserDto: any , @Param('id') id: string) {
+    return await this.usersService.updateUser(updateUserDto, id);
   }
 
   @Delete(':id')
-  async deleteUser(@Param('id') id: number) {
-    return { id };
+  async deleteUser(@Param('id') id: string) {
+    return await this.usersService.deleteUser(id);
   }
-
 
 }
