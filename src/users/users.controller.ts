@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
@@ -13,5 +13,21 @@ export class UsersController {
   async findById(@Param('id') id: number) {
     return { id: id, name: "dario" };
   }
+
+  @Post()
+  async createUser(@Body() createUserDto: any) {
+    return "hola" + " " + createUserDto.name;
+  }
+
+  @Patch(':id')
+  async updateUser(@Body() updateUserDto: any , @Param('id') id: number) {
+    return { id, updateUserDto };
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id') id: number) {
+    return { id };
+  }
+
 
 }
