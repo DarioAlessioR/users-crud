@@ -1,7 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
+
+  private readonly logger = new Logger(UsersService.name);
+
   private users = [{ name: 'dario', id: '1' }, { name: 'pepe', id: '2' }];
 
   async findAll() {
@@ -19,8 +23,10 @@ export class UsersService {
   }
 
   async createUser(createUserDto: any) {
+
+    this.logger.log('Creating user in service');
    
-    return {};
+    return { createUserDto };
   }
 
   async updateUser(updateUserDto: any, id: string) {
