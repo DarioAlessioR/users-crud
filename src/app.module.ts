@@ -9,7 +9,9 @@ import { CORRELATION_ID_HEADER, CorrelationIdMiddleware } from './correlation-id
 import { Request } from 'express';
 import { ConfigModule } from '@nestjs/config';
 import { configLoader } from './users/config-loader';
-import { config } from 'process';
+import { config, env } from 'process';
+import { envSchema } from './users/env-schema';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [LoggerModule.forRoot(
@@ -44,7 +46,9 @@ import { config } from 'process';
   ),
   ConfigModule.forRoot({
     load: [configLoader],
-  })
+    validationSchema: envSchema,
+  }),
+  AuthModule
 ],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService],
